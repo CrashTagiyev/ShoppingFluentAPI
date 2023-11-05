@@ -1,0 +1,125 @@
+﻿<Window x:Class="ShoppingFluentAPI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShoppingFluentAPI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition Width="4.1*"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="Menu_Open_Button" Visibility="Hidden" Width="40" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Open_Close_Product_Menu">Menu</Button>
+        <StackPanel Grid.Column="0" x:Name="Product_Menu" Visibility="Hidden" Background="DarkOrange"  Width="130" HorizontalAlignment="Left">
+            <Grid Width="123" Height="40" Margin="0,5,0,0">
+                <TextBox Width="93" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"></TextBox>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Background="Red" Foreground="White" Width="23" Height="20" FontSize="15" Click="Open_Close_Product_Menu" RenderTransformOrigin="-0.082,0.561" >X</Button>
+                <Button Height="15" Width="50" FontSize="9" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="Select_Image">Search</Button>
+            </Grid>
+            <Grid Height="20" ></Grid>
+            <StackPanel x:Name="Add_New_Product_StackPanel">
+                <TextBlock Foreground="White">Name:</TextBlock>
+                <TextBox x:Name="Add_New_Product_Name_TB"></TextBox>
+                <TextBlock Foreground="White"> Category Id:</TextBlock>
+                <TextBox x:Name="Add_New_Product_Category_TB" ></TextBox>
+                <TextBlock Foreground="White">Description:</TextBlock>
+                <TextBox x:Name="Add_New_Product_Description_TB" Height="70"></TextBox>
+                <StackPanel Height="40" Orientation="Horizontal">
+                    <Image x:Name="Add_New_Product_Selected_Image" Width="60"></Image>
+                    <Button Width="70" Height="23" VerticalAlignment="Center" Click="Select_Image">Add Picture</Button>
+                </StackPanel>
+                <TextBlock Foreground="White">Price:</TextBlock>
+                <TextBox x:Name="Add_New_Product_Price_TB"  Height="20"></TextBox>
+                <Button Margin="0,10,0,0" Width="120" Height="20" Click="Add_Product">Add Product</Button>
+
+                <TextBlock Foreground="White" Margin="0,10,0,0">Add Category:</TextBlock>
+                <TextBox x:Name="Add_Category_TextBox"></TextBox>
+                <Button Margin="0,10,0,0" Height="20" Click="AddCategory">Add Category</Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="Products_Showup_SP" Grid.Column="1" Visibility="Hidden"   Orientation="Vertical">
+            <TextBlock Height="40" FontSize="30" TextAlignment="Center"  Foreground="Orange">StepShop</TextBlock>
+            <ListView Grid.Column="1" x:Name="Product_LV" Height="590"  ItemsSource="{Binding Products,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedProduct,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Background="DarkOrange" Width="400" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="{Binding ProductName}"  Height="30" FontSize="20"></TextBlock>
+                                <TextBlock Text="{Binding ProductDescription}"  Height="90" FontSize="15"></TextBlock>
+                                <TextBlock Text="{Binding StringPrice}" VerticalAlignment="Bottom"  Height="90" FontSize="15"></TextBlock>
+                                <Button Click="Buy_Product">Select and Buy NOW</Button>
+                            </StackPanel>
+                            <Image Grid.Column="1" Source="{Binding ProductPicture}" Height="123" Stretch="UniformToFill"></Image>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <Grid x:Name="Account_StackPanel" Grid.Column="2" Background="orange">
+            <Grid x:Name="Profile_Account_Grid" Visibility="Hidden" Background="DarkOrange">
+                <StackPanel>
+
+                    <TextBlock FontSize="20" TextAlignment="Center" Foreground="White">Profile</TextBlock>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Username:</TextBlock>
+                    <TextBlock Text="{Binding LoggedUser.Username}"></TextBlock>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Firstname:</TextBlock>
+                    <TextBlock Text="{Binding LoggedUser.Firstname}"></TextBlock>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Lastname:</TextBlock>
+                    <TextBlock Text="{Binding LoggedUser.Lastname}"></TextBlock>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Email:</TextBlock>
+                    <TextBlock Text="{Binding LoggedUser.Email}"></TextBlock>
+                    <TextBlock Margin="0,90,0,0" Height="23" FontSize="17" Foreground="White">Your Orders:</TextBlock>
+
+                        <ListView x:Name="Account_Orders" Height="300" ItemsSource="{Binding LoggedUser.UsersOrders,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="70">
+                                        <TextBlock Text="{Binding Product}" Height="50" AllowDrop="True"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+
+            </Grid>
+            <Grid x:Name="Register_Account_Grid" Visibility="Hidden" Background="DarkOrange">
+                <StackPanel>
+
+                    <TextBlock FontSize="20" TextAlignment="Center" Foreground="White">Registration</TextBlock>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Username:</TextBlock>
+                    <TextBox x:Name="Registry_Username_TB"></TextBox>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Password:</TextBlock>
+                    <TextBox x:Name="Registry_Password_TB"></TextBox>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Firstname:</TextBlock>
+                    <TextBox x:Name="Registry_Firstname_TB"></TextBox>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Lastname:</TextBlock>
+                    <TextBox x:Name="Registry_Lastname_TB"></TextBox>
+                    <TextBlock Margin="0,10,0,0" Height="23" FontSize="17" Foreground="White">Email:</TextBlock>
+                    <TextBox x:Name="Registry_Email_TB"></TextBox>
+                    <Button Click="RegiesterNewAccount_Event" Margin="0,10,0,0" Height="25">Register</Button>
+                    <Button Click="Back_To_LoginPage_Button_Click" x:Name="Back_To_LoginPage_Button"  Margin="0,10,0,0" Height="25" Background="Transparent" Foreground="White" HorizontalContentAlignment="Left">login page</Button>
+
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="Login_Account_Grid" Visibility="Visible" Background="DarkOrange">
+                <StackPanel >
+                    <TextBlock FontSize="20" TextAlignment="Center" Height="50"> Log In</TextBlock>
+                    <TextBlock FontSize="20">Username:</TextBlock>
+                    <TextBox x:Name="Login_Username_TB"></TextBox>
+                    <TextBlock FontSize="20">Password:</TextBlock>
+                    <TextBox x:Name="Login_Password_TB"></TextBox>
+                    <Button Margin="0,10,0,0" Height="24" FontSize="15" Click="LoginAccount_Event">Log In</Button>
+                    <Button Margin="0,10,0,0" Height="24" FontSize="15" Background="Transparent" Click="LoginPanel_Register_Button" Foreground="White">Register</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
